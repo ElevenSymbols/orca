@@ -1,5 +1,7 @@
+'use client';
+
 import { FC, useEffect, useRef, useState } from 'react';
-import Router from 'next/router';
+// import Router from 'next/router';
 import { Root, StyledContainer } from './style';
 import Header from '../Header';
 import SideBar from '../Sidebar';
@@ -17,7 +19,13 @@ interface LayoutProps {
   marginTop?: Spacing;
 }
 
-const Layout: FC<LayoutProps> = ({ children, hideLeftSidebar, hideRightSidebar, containerMaxWidth, marginTop }) => {
+const Layout: FC<LayoutProps> = ({
+  children,
+  hideLeftSidebar = false,
+  hideRightSidebar = false,
+  containerMaxWidth = 'sm',
+  marginTop = 'md',
+}) => {
   const isAnnouncementDisabled = getCookie(Cookies.Announcement_Disabled);
   const [isAnnouncementOpen, setIsAnnouncementOpen] = useState(isAnnouncementDisabled !== 'true');
   const sideBarRef = useRef(null);
@@ -30,11 +38,11 @@ const Layout: FC<LayoutProps> = ({ children, hideLeftSidebar, hideRightSidebar, 
   const toggleSidebar = () => setIsSidebarOpen(!isSideBarOpen);
 
   useEffect(() => {
-    Router.events.on('routeChangeComplete', () => {
-      if (isSideBarOpen) {
-        setIsSidebarOpen(false);
-      }
-    });
+    // Router.events.on('routeChangeComplete', () => {
+    //   if (isSideBarOpen) {
+    //     setIsSidebarOpen(false);
+    //   }
+    // });
   }, [isSideBarOpen]);
 
   return (
@@ -57,13 +65,6 @@ const Layout: FC<LayoutProps> = ({ children, hideLeftSidebar, hideRightSidebar, 
       </Root>
     </>
   );
-};
-
-Layout.defaultProps = {
-  hideLeftSidebar: false,
-  hideRightSidebar: false,
-  containerMaxWidth: 'sm',
-  marginTop: 'md',
 };
 
 export default Layout;

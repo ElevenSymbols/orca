@@ -24,15 +24,16 @@
     "node": ">=12.20.0"
   },
   "devDependencies": {
-    "husky": "^7.0.1",
-    "lerna": "^3.22.1",
-    "lint-staged": "^11.1.0",
-    "prettier": "^2.1.2"
+    "husky": "^9.1.6",
+    "lerna": "^8.1.8",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx,md,json,html}": [
       "prettier --write"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "pnpm@8.14.0+sha512.5d4bf97b349faf1a51318aa1ba887e99d9c36e203dbcb55938a91fddd2454246cb00723d6642f54d463a0f52a2701dadf8de002a37fc613c9cdc94ed5675ddce"
 }

@@ -1,5 +1,6 @@
+import shouldForwardProp from '@styled-system/should-forward-prop';
 import styled from 'styled-components';
-import { FontWeight, FontSize, GeneralColors, Radius } from '../../../theme';
+import { FontSize, FontWeight, GeneralColors, Radius } from '../../../theme';
 
 interface AProps {
   weight?: FontWeight;
@@ -10,7 +11,11 @@ interface AProps {
   block: boolean;
 }
 
-export const A = styled.a<AProps>`
+export const A = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    shouldForwardProp(prop) && !['disableBorderOnHover', 'fullWidth', 'block'].includes(prop),
+})<AProps>`
+  display: inline-block;
   cursor: pointer;
   text-decoration: none;
   transition: color 0.1s;
@@ -27,12 +32,13 @@ export const A = styled.a<AProps>`
   ${(p) => p.block && 'display:block'};
 
   ${(p) =>
-    !p.disableBorderOnHover &&
-    `border-bottom: 1px solid transparent;
+    !p.disableBorderOnHover
+      ? `border-bottom: 1px solid transparent;
 
     &:hover {
       border-bottom: 1px solid ${p.color ? p.theme.colors.general[p.color] : p.theme.colors.general.link};
-  }`}
+  }`
+      : undefined}
 `;
 
 interface ButtonAProps {
@@ -46,7 +52,10 @@ interface ButtonAProps {
   hasHover?: boolean;
 }
 
-export const ButtonA = styled.a<ButtonAProps>`
+export const ButtonA = styled.div.withConfig({
+  shouldForwardProp: (prop) => shouldForwardProp(prop) && !['active', 'fullWidth', 'hasHover'].includes(prop),
+})<ButtonAProps>`
+  display: inline-block;
   font-size: ${(p) => p.theme.font.size.md};
   padding: ${(p) => p.theme.spacing.xs};
   border-radius: ${(p) => (p.radius ? p.theme.radius[p.radius] : p.theme.radius.sm)};

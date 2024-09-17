@@ -1,12 +1,15 @@
 import { FC, ReactNode, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { addUserNotification, removeUserNotification } from '../../store/auth';
-import { RootState } from '../../store';
-import { Events } from '../../constants';
 
-import { Alert, GlobalStyle, Loading } from '../ui';
+import theme, { Theme } from '../../theme';
+import GlobalStyle from '../ui/GlobalStyle/GlobalStyle';
+import Alert from '../ui/Alert/Alert';
+import { RootState } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth, useFetchSettings, useSocket } from '../../utils';
-import { Theme } from '../../theme';
+import { addUserNotification, AuthActionTypes, removeUserNotification } from '../../store/auth';
+import { Events } from '../../constants';
+import { Loading } from '../ui';
+import { Dispatch } from 'redux';
 
 interface AppProps {
   children: ReactNode;
@@ -16,7 +19,7 @@ interface AppProps {
 const App: FC<AppProps> = ({ children, setTheme }) => {
   const notification = useSelector((state: RootState) => state.notification);
   const authUser = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<AuthActionTypes>>();
   const { authError, isAuthFetching } = useAuth();
   const { isSettingsFetching } = useFetchSettings(setTheme);
   const socket = useSocket();
@@ -69,7 +72,7 @@ const App: FC<AppProps> = ({ children, setTheme }) => {
     <>
       {children}
 
-      <GlobalStyle />
+      <GlobalStyle theme={theme} />
 
       {notification.message && (
         <Alert autoClose={notification.autoClose} alignment={notification.alignment} type={notification.type}>
